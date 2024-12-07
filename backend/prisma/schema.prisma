@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider    = "prisma-client-js"
+}
+
+datasource db {
+  provider    = "mysql"
+  url         = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  phone       String
+  role        String @default("user")
+  comments    Comment[]
+  createAt    DateTime @default(now()) @map("create_at")
+  updateAt    DateTime @updatedAt @map("update_at")
+
+  @@map("users")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  artistId    Int @map("artist_id")
+  name        String
+  price       Float
+  category    String
+  description String?
+  stock       Int
+  rating      Float?
+  type        String @default("A")
+  image       String?
+  commentId   Int? @map("comment_id")
+
+  artist      Artist    @relation(fields: [artistId], references: [id])
+  comment     Comment? @relation(fields: [commentId], references: [id])
+  createdAt   DateTime @default(now()) @map("create_at")
+  updateAt    DateTime @updatedAt @map("update_at")
+
+  @@map("products")
+}
+
+model Comment {
+  id          Int @id @default(autoincrement())
+  name        String
+  userId      Int @map("user_id")
+
+  product     Product[]
+  user        User @relation(fields: [userId], references: [id])
+
+  @@map("comments")
+}
+
+model Artist {
+  id            Int      @id @default(autoincrement())
+  name          String
+  image         String?
+  debutDate     DateTime @map("debut_date")
+  description   String?
+
+  member        Member[]
+  products      Product[]
+  events        Event[]
+
+  @@map("artist")
+}
+
+model Member {
+  id            Int      @id @default(autoincrement())
+  name          String
+  artistId      Int
+  image         String?
+  birthDate     DateTime @map("birth_date")
+  description   String?
+
+  artist        Artist @relation(fields: [artistId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("members")
+}
+
+model Event {
+  id          Int @id @default(autoincrement())
+  artistId    Int @map("artist_id")
+  name        String
+  description String?
+  date        DateTime
+  location    String
+  createdAt   DateTime @default(now()) @map("create_at")
+
+  artist      Artist @relation(fields: [artistId], references: [id])
+
+  @@map("event")
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime @default(now()) @map("create_at")
+  updatedAt   DateTime @updatedAt @map("update_at")
+
+  @@map("news")
+}
