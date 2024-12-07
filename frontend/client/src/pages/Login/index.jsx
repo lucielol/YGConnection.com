@@ -6,6 +6,7 @@ import "../../style/Login.css"; // Assuming you have a CSS file for styling
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
