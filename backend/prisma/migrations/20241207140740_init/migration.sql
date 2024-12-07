@@ -72,6 +72,7 @@ CREATE TABLE `event` (
     `description` VARCHAR(191) NULL,
     `date` DATETIME(3) NOT NULL,
     `location` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NULL,
     `create_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)

@@ -55,6 +55,8 @@ export const UploadMiddlware = () => {
         folder = path.join(folder, "members");
       } else if (file.fieldname === "productImage") {
         folder = path.join(folder, "products");
+      } else if (file.fieldname === "concertImage") {
+        folder = path.join(folder, "concerts");
       }
 
       cb(null, folder);

@@ -1,14 +1,15 @@
 import express from "express";
 import Event from "../controllers/event-controller.js";
-import { RoleMiddleware } from "../utils/middleware.js";
+import { RoleMiddleware, UploadMiddlware } from "../utils/middleware.js";
 
 const EventRouter = express.Router();
+const upload = UploadMiddlware();
 
 // get all event
-EventRouter.get("/", RoleMiddleware, Event.index);
+EventRouter.get("/", Event.index);
 
 // insert event
-EventRouter.post("/", RoleMiddleware, Event.store);
+EventRouter.post("/", upload, Event.store);
 
 // show event by id
 EventRouter.get("/:id", Event.show);
