@@ -1,10 +1,20 @@
-node_modules
-# Keep environment variables out of version control
+# Ignore node_modules
+node_modules/
+
+# Ignore environment files
 .env
 
-!public
+# Include the static folder but exclude specific files
+!static/
 
-public/images/artists/*
-public/images/concerts/*
-public/images/members/*
-public/images/products/*
+# Ignore files in specific subfolders but keep the folder structure
+static/images/artists/*
+static/images/concerts/*
+static/images/members/*
+static/images/products/*
+
+# Keep folders inside static/images
+!static/images/artists/
+!static/images/concerts/
+!static/images/members/
+!static/images/products/

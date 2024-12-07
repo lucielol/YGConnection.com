@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 // static route
-app.use("/public", express.static("public"));
+app.use("/static", express.static("static"));
 
 // CORS configuration
 app.use(express.json());
