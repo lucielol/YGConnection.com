@@ -14,7 +14,7 @@ static/images/members/*
 static/images/products/*
 
 # Keep folders inside static/images
-!static/images/artists/
-!static/images/concerts/
-!static/images/members/
-!static/images/products/
+!static/images/artists/.gitkeep
+!static/images/concerts/.gitkeep
+!static/images/members/.gitkeep
+!static/images/products/.gitkeep
