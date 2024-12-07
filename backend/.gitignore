@@ -1,3 +1,8 @@
 node_modules
 # Keep environment variables out of version control
 .env
+
+public/images/artists/*
+public/images/concerts/*
+public/images/members/*
+public/images/products/*

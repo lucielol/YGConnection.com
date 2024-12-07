@@ -10,16 +10,18 @@ const Event = {
     } catch (error) {}
   },
   store: async (req, res) => {
-    const { artistId, name, description, date, location } = req.body;
+    const { artist, eventName, eventDescription, date, location } = req.body;
+    const image = req.files[0]?.path;
 
     try {
       await prisma.event.create({
         data: {
-          artistId,
-          name,
-          description,
+          artistId: parseInt(artist),
+          name: eventName,
+          description: eventDescription,
           date: new Date(date),
           location,
+          image,
         },
       });
 

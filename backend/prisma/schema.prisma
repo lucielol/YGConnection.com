@@ -93,6 +93,7 @@ model Event {
   description String?
   date        DateTime
   location    String
+  image       String?
   createdAt   DateTime @default(now()) @map("create_at")
 
   artist      Artist @relation(fields: [artistId], references: [id])
