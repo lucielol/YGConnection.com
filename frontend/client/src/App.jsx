@@ -32,6 +32,7 @@ import NewsDetailLogged from "./pages/NewsDetailLogged";
 import AccountSetting from "./pages/AccountSetting";
 import Point from "./pages/Point";
 import Checkout from "./pages/Checkout";
+import Product from "./pages/Product";
 import Community from "./pages/Community";
 import store from "./services/store";
 import { Provider } from "react-redux";
@@ -61,6 +62,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/Product"
+            element={
+              <ProtectedRoute>
+                <Product />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/CookiesPolicy" element={<CookiesPolicy />} />
           <Route path="/Payment" element={<Payment />} />
@@ -79,7 +89,14 @@ function App() {
             element={<DetailConcertLogged />}
           />
           <Route path="/ProductMiniAlbum" element={<ProductMiniAlbum />} />
-          <Route path="/ProductDetail" element={<ProductDetail />} />
+          <Route
+            path="/ProductDetail/:id"
+            element={
+              <ProtectedRoute>
+                <ProductDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/NewsDetailLogged" element={<NewsDetailLogged />} />
           <Route path="/AccountSetting" element={<AccountSetting />} />
           <Route path="/Point" element={<Point />} />

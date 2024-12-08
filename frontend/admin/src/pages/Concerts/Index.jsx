@@ -61,7 +61,12 @@ const Concerts = () => {
               className="concert-card"
               onClick={() => navigate(`/concerts/${concert.id}`)} // Navigasi ke detail
             >
-              <img src={concert.image} alt={concert.title} />
+              <img
+                src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/${
+                  concert.image
+                }`}
+                alt={concert.title}
+              />
               <p>{concert.title}</p>
             </div>
           ))}

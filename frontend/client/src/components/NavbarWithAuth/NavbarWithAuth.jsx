@@ -21,10 +21,10 @@ const NavbarLogged = () => {
         />
       </div>
       <nav>
-        <Link to="/home_logged">Home</Link>
+        <Link to="/HomeLogged">Home</Link>
         <Link to="/product">Product</Link>
         <Link to="/community">Community</Link>
-        <Link to="/about_us_logged">About Us</Link>
+        <Link to="/AboutUsLogged">About Us</Link>
         <Link to="/contact">Contact Us</Link>
       </nav>
       <button className="user-button" onClick={toggleDropdown}>
@@ -54,14 +54,13 @@ const Navbar = () => {
           Log In
         </Link>
       </nav>
-
     </header>
   );
 };
 
 // Main Navbar Component with Conditional Rendering (Logged in / Logged out)
 const NavbarWithAuth = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Example login state
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token")); // Example login state
 
   return <div>{isLoggedIn ? <NavbarLogged /> : <Navbar />}</div>;
 };
