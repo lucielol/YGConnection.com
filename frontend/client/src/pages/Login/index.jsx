@@ -4,7 +4,7 @@ import NavbarLogin from "../../components/NavbarLogin";
 import Footer from "../../components/Footer";
 import "../../style/Login.css"; // Assuming you have a CSS file for styling
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authSlice";
@@ -16,6 +16,9 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(
+    (state) => state.auth.isAuthenticated || localStorage.getItem("token")
+  );
 
   const handleChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
@@ -37,6 +40,13 @@ const Login = () => {
   React.useEffect(() => {
     console.log(errorMessage);
   }, []);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/HomeLogged");
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <>
       <NavbarLogin />
