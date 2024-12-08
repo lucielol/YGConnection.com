@@ -47,7 +47,7 @@ export const RoleMiddleware = (roles) => {
 export const UploadMiddlware = () => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      let folder = "public/images";
+      let folder = "static/images";
 
       if (file.fieldname === "artistImage") {
         folder = path.join(folder, "artists");

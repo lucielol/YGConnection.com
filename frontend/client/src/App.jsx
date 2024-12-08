@@ -33,46 +33,60 @@ import AccountSetting from "./pages/AccountSetting";
 import Point from "./pages/Point";
 import Checkout from "./pages/Checkout";
 import Community from "./pages/Community";
+import store from "./services/store";
+import { Provider } from "react-redux";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const location = useLocation();
 
   return (
     <div className="App">
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/AboutusLogged" element={<AboutusLogged />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Reset" element={<Reset />} />
-        <Route path="/RegisNext" element={<RegisNext />} />
-        <Route path="/Regis" element={<Regis />} />
-        <Route path="/RegisNext" element={<RegisNext />} />
-        <Route path="/VerifikasiEmail" element={<VerifikasiEmail />} />
-        <Route path="/HomeLogged" element={<HomeLogged />} />
-        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
-        <Route path="/CookiesPolicy" element={<CookiesPolicy />} />
-        <Route path="/Payment" element={<Payment />} />
-        <Route path="/Payment2" element={<Payment2 />} />
-        <Route path="/Tracking" element={<Tracking />} />
-        <Route path="/Transaction" element={<Transaction />} />
-        <Route path="/Review" element={<Review />} />
-        <Route path="/DetailsItem" element={<DetailsItem />} />
-        <Route path="/Concert" element={<Concert />} />
-        <Route path="/ConcertLogged" element={<ConcertLogged />} />
-        <Route path="/ArtistDetail" element={<ArtistDetail />} />
-        <Route path="/ArtistDetailLogged" element={<ArtistDetailLogged />} />
-        <Route path="/DetailConcert" element={<DetailConcert />} />
-        <Route path="/DetailConcertLogged" element={<DetailConcertLogged />} />
-        <Route path="/ProductMiniAlbum" element={<ProductMiniAlbum />} />
-        <Route path="/ProductDetail" element={<ProductDetail />} />
-        <Route path="/NewsDetailLogged" element={<NewsDetailLogged />} />
-        <Route path="/AccountSetting" element={<AccountSetting />} />
-        <Route path="/Point" element={<Point />} />
-        <Route path="/Checkout" element={<Checkout />} />
-        <Route path="/Community" element={<Community />} />
-      </Routes>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/AboutusLogged" element={<AboutusLogged />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Reset" element={<Reset />} />
+          <Route path="/RegisNext" element={<RegisNext />} />
+          <Route path="/Regis" element={<Regis />} />
+          <Route path="/RegisNext" element={<RegisNext />} />
+          <Route path="/VerifikasiEmail" element={<VerifikasiEmail />} />
+          <Route
+            path="/HomeLogged"
+            element={
+              <ProtectedRoute>
+                <HomeLogged />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/CookiesPolicy" element={<CookiesPolicy />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/Payment2" element={<Payment2 />} />
+          <Route path="/Tracking" element={<Tracking />} />
+          <Route path="/Transaction" element={<Transaction />} />
+          <Route path="/Review" element={<Review />} />
+          <Route path="/DetailsItem" element={<DetailsItem />} />
+          <Route path="/Concert" element={<Concert />} />
+          <Route path="/ConcertLogged" element={<ConcertLogged />} />
+          <Route path="/ArtistDetail" element={<ArtistDetail />} />
+          <Route path="/ArtistDetailLogged" element={<ArtistDetailLogged />} />
+          <Route path="/DetailConcert" element={<DetailConcert />} />
+          <Route
+            path="/DetailConcertLogged"
+            element={<DetailConcertLogged />}
+          />
+          <Route path="/ProductMiniAlbum" element={<ProductMiniAlbum />} />
+          <Route path="/ProductDetail" element={<ProductDetail />} />
+          <Route path="/NewsDetailLogged" element={<NewsDetailLogged />} />
+          <Route path="/AccountSetting" element={<AccountSetting />} />
+          <Route path="/Point" element={<Point />} />
+          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/Community" element={<Community />} />
+        </Routes>
+      </Provider>
     </div>
   );
 }

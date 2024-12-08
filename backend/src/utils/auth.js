@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export const Register = async (req, res) => {
-  const { name, email, password, phone } = req.body;
+  const { name, email, password, role, phone } = req.body;
 
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,6 +16,7 @@ export const Register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role,
       phone,
     },
   });
@@ -44,5 +45,8 @@ export const Login = async (req, res) => {
     expiresIn: "1h",
   });
 
-  res.status(200).json({ message: "Login successful", token });
+  // Remove password from user object
+  const { password: _, ...userWithoutPassword } = user; // Destructure to exclude password
+
+  res.status(200).json({ token, user: userWithoutPassword }); // Send user without password
 };

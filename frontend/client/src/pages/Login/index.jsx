@@ -4,33 +4,39 @@ import NavbarLogin from "../../components/NavbarLogin";
 import Footer from "../../components/Footer";
 import "../../style/Login.css"; // Assuming you have a CSS file for styling
 import { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import axiosInstance from "../../../axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../services/authSlice";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
-  const [values, setValues] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:8081/login", values)
-      .then((res) => {
-        console.log(res.data.message);
-        navigate("/HomeLogged"); // Redirect after successful login
-      })
-      .catch((err) => {
-        console.error(err.response?.data?.message || "An error occurred");
-        setErrorMessage(err.response?.data?.message || "Invalid credentials");
-      });
+    try {
+      const response = await axiosInstance.post("/auth/login", credentials);
+      dispatch(login({ user: response.data.user, token: response.data.token }));
+      navigate("/HomeLogged");
+    } catch (error) {
+      console.log("Error Login", error);
+
+      setErrorMessage("Login failed. Please check your credentials.");
+    }
   };
+
+  React.useEffect(() => {
+    console.log(errorMessage);
+  }, []);
   return (
     <>
       <NavbarLogin />
