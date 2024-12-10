@@ -9,7 +9,7 @@
     "dev:server": "cd backend && npm run dev",
     "dev:admin": "cd frontend/admin && npm run dev",
     "dev:client": "cd frontend/client && npm run dev",
-    "install": "npm-run-all install:server install:admin install:client",
+    "install:all": "npm-run-all install:server install:admin install:client",
     "start": "npm-run-all --parallel dev:server dev:admin dev:client"
   },
   "keywords": [],

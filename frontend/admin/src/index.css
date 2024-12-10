@@ -143,9 +143,11 @@ a {
 }
 
 button {
-  all: unset; /* Resets all styles including margin, padding, border, background, and more */
+  all: unset;
+  /* Resets all styles including margin, padding, border, background, and more */
   display: inline-block;
-  cursor: pointer; /* Ensures the pointer cursor for clickable buttons */
+  cursor: pointer;
+  /* Ensures the pointer cursor for clickable buttons */
 }
 
 .container {
