@@ -5,9 +5,11 @@ import axiosInstance from "../../axiosInstance";
 
 function AddProduct() {
   const [artists, setArtists] = React.useState(null);
+  const [categories, setCategories] = React.useState([]);
   const [formData, setFormData] = React.useState({
     productName: "",
     artist: "",
+    category: 0,
     type: "",
     price: "",
     stocks: "",
@@ -24,8 +26,18 @@ function AddProduct() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const categories = await axiosInstance.get("/category");
+      setCategories(categories.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   React.useEffect(() => {
     fetchArtist();
+    fetchCategories();
   }, []);
 
   // Handle form field changes
@@ -57,19 +69,21 @@ function AddProduct() {
     data.append("type", formData.type);
     data.append("price", formData.price);
     data.append("stock", formData.stocks);
+    data.append("category", formData.category);
+    data.append("point", formData.point);
     data.append("description", formData.description);
     if (formData.image) {
       data.append("productImage", formData.image); // Append image file
     }
 
     try {
-      const response = await axiosInstance.post("/products", data, {
+      await axiosInstance.post("/products", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }); // Use axiosInstance
+      });
 
-      const result = response.data;
+      alert("Success");
       console.log(result);
     } catch (error) {
       console.error("Error:", error);
@@ -168,6 +182,37 @@ function AddProduct() {
                 onChange={handleChange}
                 placeholder="Enter stock quantity"
                 required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group description">
+              <label>Category</label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                placeholder="Category"
+                required
+              >
+                <option selected>Select category</option>
+                {categories &&
+                  categories.map((category, index) => (
+                    <option key={index} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Point</label>
+              <input
+                type="text"
+                name="point"
+                value={formData.point}
+                onChange={handleChange}
+                placeholder="100"
               />
             </div>
           </div>

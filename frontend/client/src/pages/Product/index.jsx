@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const fetchProducts = async () => {
     try {
@@ -18,8 +19,18 @@ const Product = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const categories = await axiosInstance.get("/category");
+      setCategories(categories.data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
   return (
     <div>
@@ -27,6 +38,21 @@ const Product = () => {
       <Dropdown /> {/* Add Dropdown here */}
       {/* Product Grid Section */}
       <div className="container">
+        <div className="flex space-x-5">
+          <input
+            type="text"
+            className="rounded-full"
+            placeholder="Looking for..."
+          />
+          <select className="border rounded h-11 px-3">
+            <option selected>Select category</option>
+            {categories.map((item, index) => (
+              <option key={index} value={item.name}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="product-grid">
           {products.map((product, index) => (
             <Link

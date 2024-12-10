@@ -1,20 +1,29 @@
 import React from "react";
 import NavbarLogged from "../../components/NavbarLogged";
-import Dropdown from "../../components/Dropdown";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
 import "../../style/HomeLogged.css";
 import HeroSection from "./HeroSection";
+import axiosInstance from "../../../axiosInstance";
 
 const HomeLogged = () => {
+  const [artists, setArtists] = React.useState([]);
+
+  const fetchArtists = async () => {
+    try {
+      const artists = await axiosInstance.get("/artist");
+      setArtists(artists.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchArtists();
+  }, []);
   return (
     <>
-     
-        <NavbarLogged />
-       
-        <Dropdown />
-     
-
+      <NavbarLogged />
       <HeroSection />
 
       <main>
@@ -39,7 +48,7 @@ const HomeLogged = () => {
             </div>
           </div>
         </section>
-        </main>
+      </main>
 
       <main>
         <section className="upcoming-concerts">
@@ -85,11 +94,18 @@ const HomeLogged = () => {
         <section className="artist-section">
           <h2 style={{ paddingLeft: "2%" }}>Looking for artists?</h2>
           <div className="artist-grid">
-            <div className="artist-card">
-              <img src="/images/img/blackpink.jpg" alt="BLACKPINK" />
-              <h3>BLACKPINK</h3>
-            </div>
-            <div className="artist-card">
+            {artists.map((artist, index) => (
+              <div key={index} className="artist-card">
+                <img
+                  src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/${
+                    artist.image
+                  }`}
+                  alt={artist.name}
+                />
+                <h3>{artist.name}</h3>
+              </div>
+            ))}
+            {/* <div className="artist-card">
               <img src="/images/img/treasuree.jpeg" alt="TREASURE" />
               <h3>TREASURE</h3>
             </div>
@@ -124,7 +140,7 @@ const HomeLogged = () => {
             <div className="artist-card">
               <img src="/images/img/rose.png" alt="Roseanne Park" />
               <h3>Roseanne Park</h3>
-            </div>
+            </div> */}
           </div>
         </section>
       </main>

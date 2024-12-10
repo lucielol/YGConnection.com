@@ -5,6 +5,11 @@ import ArtistRouter from "./artist-route.js";
 import EventRouter from "./event-route.js";
 import UserRouter from "./user-route.js";
 import MemberRouter from "./member-route.js";
+import CheckoutRouter from "./checkout-route.js";
+import CategoryRouter from "./category-route.js";
+import OrderRouter from "./order-route.js";
+import TransactionRouter from "./transaction-route.js";
+import Payment from "../controllers/payment-controller.js";
 
 const router = express.Router();
 
@@ -22,6 +27,21 @@ router.use("/api/event", EventRouter);
 
 // member route
 router.use("/api/member", MemberRouter);
+
+// checkout router
+router.use("/api/checkout", CheckoutRouter);
+
+// categiry router
+router.use("/api/category", CategoryRouter);
+
+// order router
+router.use("/api/order", OrderRouter);
+
+// Transaction router
+router.use("/api/transaction", TransactionRouter);
+
+// payment router
+router.use("/api/payment", Payment.store);
 
 // users router
 router.use("/api/profile", UserRouter);

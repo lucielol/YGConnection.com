@@ -14,17 +14,28 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  name        String
-  email       String   @unique
-  password    String
-  phone       String
-  role        String @default("user")
-  comments    Comment[]
-  createAt    DateTime @default(now()) @map("create_at")
-  updateAt    DateTime @updatedAt @map("update_at")
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique
+  password      String
+  phone         String
+  role          String @default("user")
+  createAt      DateTime @default(now()) @map("create_at")
+  updateAt      DateTime @updatedAt @map("update_at")
+  comments      Comment[]
+  card          Cart[]
+  Order         Order[]
+  transactions  Transactions[]
+  point         Point[]
 
   @@map("users")
+}
+
+model Category {
+  id    Int @id @default(autoincrement())
+  name  String
+
+  product Product[]
 }
 
 model Product {
@@ -32,14 +43,19 @@ model Product {
   artistId    Int @map("artist_id")
   name        String
   price       Float
-  category    String
+  categoryId  Int @map("category_id")
   description String?
   stock       Int
   rating      Float?
+  point       Int
   type        String @default("A")
   image       String?
+  preOrder    Boolean @default(true) @map("pre_order")
   commentId   Int? @map("comment_id")
 
+  order       Order[]
+  cart        Cart[]
+  category    Category @relation(fields: [categoryId], references: [id])
   artist      Artist    @relation(fields: [artistId], references: [id])
   comment     Comment? @relation(fields: [commentId], references: [id])
   createdAt   DateTime @default(now()) @map("create_at")
@@ -109,4 +125,75 @@ model News {
   updatedAt   DateTime @updatedAt @map("update_at")
 
   @@map("news")
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  userId        Int       @map("user_id")
+  productId     Int       @map("product_id")
+  quantity      Int       @default(1)  
+  totalAmount   Float     @map("total_amount")
+  status        String    @default("pending")
+  paymentStatus String    @default("unpaid") @map("payment_status") 
+  createdAt     DateTime  @default(now()) @map("create_at")
+  updatedAt     DateTime  @updatedAt @map("update_at")
+
+  product       Product   @relation(fields: [productId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  transactions  Transactions[]
+
+  @@map("orders")
+}
+
+model Cart {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @map("user_id")
+  productId     Int      @map("product_id")
+  quantity      Int      @default(1)
+  createdAt     DateTime @default(now()) @map("create_at")
+  updatedAt     DateTime @updatedAt @map("update_at")
+
+  user          User     @relation(fields: [userId], references: [id])
+  product       Product  @relation(fields: [productId], references: [id])
+
+  @@map("cart")
+}
+
+
+
+model Transactions {
+  id             Int       @id @default(autoincrement())
+  userId         Int       @map("user_id")
+  orderId        Int       @map("order_id")
+  amount         Float
+  paymentMethod  String    @map("payment_method")
+  status         String    @default("pending")
+  createdAt      DateTime  @default(now()) @map("create_at")
+  updatedAt      DateTime  @updatedAt @map("update_at")
+
+  order          Order     @relation(fields: [orderId], references: [id])
+  user           User      @relation(fields: [userId], references: [id])
+
+  payment        Payment[]
+}
+
+model Payment {
+  id             Int       @id @default(autoincrement())
+  transactionId  Int       @map("transaction_id")
+  provider       String    
+  amount         Float 
+  currency       String    @default("IDR")
+  status         String    @default("pending")
+  createdAt      DateTime  @default(now()) @map("create_at")
+  updatedAt      DateTime  @updatedAt @map("update_at")
+
+  transaction    Transactions @relation(fields: [transactionId], references: [id])
+}
+
+model Point {
+  id Int @id @default(autoincrement())
+  userId  Int @map("user_id")
+  value Int
+
+  user User @relation(fields: [userId], references: [id])
 }

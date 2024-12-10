@@ -11,6 +11,7 @@ import ProductDetail from "./pages/ProductDetail"; // Tambahkan halaman detail p
 import AddProduct from "./pages/AddProduct"; // Import AddProduct
 import Adminsettings from "./pages/adminsettings";
 import DeliveryHistory from "./pages/DeliveryHistory";
+import "./App.css";
 
 function App() {
   return (

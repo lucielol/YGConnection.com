@@ -21,6 +21,21 @@ const ProductDetail = () => {
     }
   };
 
+  const addToCart = async (e) => {
+    e.preventDefault();
+
+    try {
+      const checkouts = await axiosInstance.post("/checkout", {
+        userId: parseInt(localStorage.getItem("userId")),
+        productId: product.id,
+        quantity: quantity,
+      });
+      alert(checkouts.data.message);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   useEffect(() => {
     fetchProduct();
   }, []);
@@ -35,10 +50,6 @@ const ProductDetail = () => {
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
     setTotalPrice((quantity + 1) * product.price);
-  };
-
-  const addToCart = () => {
-    alert("Item added to cart!");
   };
 
   return (
@@ -61,12 +72,10 @@ const ProductDetail = () => {
               <h3>{product.name}</h3>
               <p className="price">Rp.{product.price}</p>
               <p className="status">For Pre-Order</p>
-              <p className="shipping-date">
-                Scheduled Shipping Start Date Nov 21 2024 - Nov 28 2024
-              </p>
+              <p className="shipping-date">{product.description}</p>
 
               <div className="points">
-                <span>350 points</span>
+                <span>{product.point} points</span>
                 <div className="quantity">
                   <button onClick={decreaseQuantity}>-</button>
                   <input type="text" id="quantityInput" value="1" readOnly />
@@ -75,7 +84,8 @@ const ProductDetail = () => {
               </div>
 
               <p className="total" id="total">
-                Total ({quantity} Item{quantity > 1 ? "s" : ""}) Rp.{totalPrice}
+                Total ({quantity} Item{quantity > 1 ? "s" : ""}) Rp.
+                {totalPrice || product.price}
               </p>
               <div className="buttons">
                 <button className="add-to-cart" onClick={addToCart}>

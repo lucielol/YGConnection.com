@@ -1,13 +1,11 @@
 import { Routes, Route, useLocation } from "react-router-dom"; // Hapus Router di sini
-import NavbarLogged from "./components/NavbarLogged";
-import NavbarLogin from "./components/NavbarLogin";
-
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
 import AboutusLogged from "./pages/AboutusLogged";
 import Login from "./pages/Login";
 import Reset from "./pages/Reset";
 import ResetNext from "./pages/ResetNext";
+import Card from "./pages/Cart";
 import Regis from "./pages/Regis";
 import RegisNext from "./pages/RegisNext";
 import VerifikasiEmail from "./pages/VerifikasiEmail";
@@ -36,7 +34,10 @@ import Product from "./pages/Product";
 import Community from "./pages/Community";
 import store from "./services/store";
 import { Provider } from "react-redux";
+import Contact from "./pages/Contact";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+import "./app.css";
 
 function App() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function App() {
           <Route path="/AboutusLogged" element={<AboutusLogged />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Reset" element={<Reset />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/RegisNext" element={<RegisNext />} />
           <Route path="/Regis" element={<Regis />} />
           <Route path="/RegisNext" element={<RegisNext />} />
@@ -73,9 +75,13 @@ function App() {
 
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/CookiesPolicy" element={<CookiesPolicy />} />
-          <Route path="/Payment" element={<Payment />} />
-          <Route path="/Payment2" element={<Payment2 />} />
+          <Route
+            path="/Payment/:transactionId/:orderId"
+            element={<Payment />}
+          />
+          <Route path="/Payment-success" element={<Payment2 />} />
           <Route path="/Tracking" element={<Tracking />} />
+          <Route path="/Cart" element={<Card />} />
           <Route path="/Transaction" element={<Transaction />} />
           <Route path="/Review" element={<Review />} />
           <Route path="/DetailsItem" element={<DetailsItem />} />

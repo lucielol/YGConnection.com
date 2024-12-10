@@ -12,8 +12,10 @@ const Product = {
       return res.status(500).json({ message: "failed fetch product" });
     }
   },
+
   store: async (req, res) => {
-    const { productName, price, description, stock, artist } = req.body;
+    const { productName, price, category, point, description, stock, artist } =
+      req.body;
     const image = req.files[0].path;
 
     try {
@@ -22,10 +24,11 @@ const Product = {
           artistId: parseInt(artist),
           name: productName,
           price: Number(price),
+          categoryId: parseInt(category),
           description,
           stock: parseInt(stock),
+          point: parseInt(point),
           image: image,
-          category: "test",
         },
       });
 
@@ -47,6 +50,7 @@ const Product = {
         where: { id },
         include: {
           artist: true,
+          category: true,
         },
       });
 

@@ -7,6 +7,8 @@ node_modules/
 # Include the static folder but exclude specific files
 !static/
 
+prisma/migrations/*
+
 # Ignore files in specific subfolders but keep the folder structure
 static/images/artists/*
 static/images/concerts/*

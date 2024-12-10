@@ -302,7 +302,7 @@ function ProductDetail() {
                 type="text"
                 id="category"
                 name="category"
-                value={product.category}
+                value={product.category.name}
                 readOnly
               />
             </div>

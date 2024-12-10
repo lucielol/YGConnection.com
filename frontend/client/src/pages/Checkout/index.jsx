@@ -1,11 +1,71 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import NavbarWithAuth from "../../components/NavbarWithAuth/NavbarWithAuth";
 import Dropdown from "../../components/Dropdown";
 import Footer from "../../components/Footer";
 import "../../style/Checkout.css";
+import axiosInstance from "../../../axiosInstance";
 
 const Checkout = () => {
+  const userId = parseInt(localStorage.getItem("userId")) || null;
+  const [orders, setOrders] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [shippingFee] = useState(80000); // Biaya pengiriman tetap
+  const [discount] = useState(0); // Diskon tetap, ubah jika ada logika diskon dinamis
+  const [paymentMethod, setPaymentMethod] = useState(""); // Untuk menyimpan metode pembayaran yang dipilih
+  const navigate = useNavigate();
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axiosInstance(`/order/${userId}`);
+      setOrders(response.data);
+
+      // Hitung subtotal
+      const total = response.data.reduce((acc, item) => {
+        return acc + item.quantity * item.product.price;
+      }, 0);
+
+      setSubtotal(total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const grandTotal = subtotal + shippingFee - discount;
+
+  // Fungsi untuk menangani klik tombol Pay
+  const handlePayment = async () => {
+    if (!paymentMethod) {
+      alert("Please select a payment method!");
+      return;
+    }
+
+    try {
+      // Mengirim data transaksi ke backend
+      const response = await axiosInstance.post("/transaction", {
+        userId,
+        orderId: orders[0]?.id, // Asumsikan hanya ada satu order untuk checkout ini
+        amount: grandTotal,
+        paymentMethod,
+      });
+
+      if (response.data.success) {
+        navigate(
+          `/payment/${response.data.transactionId}/${response.data.orderId}`
+        );
+      } else {
+        alert("Payment failed, please try again.");
+      }
+    } catch (error) {
+      console.error("Error making payment", error);
+      alert("There was an error processing your payment.");
+    }
+  };
+
   return (
     <>
       <NavbarWithAuth />
@@ -20,64 +80,106 @@ const Checkout = () => {
             <h3>For Pre-Order</h3>
           </div>
           <p>
-            <span className="shipping-text">Scheduled Shipping Start Date:</span>
+            <span className="shipping-text">
+              Scheduled Shipping Start Date:
+            </span>
             <span className="shipping-dates">Nov 21 2024 - Nov 28 2024</span>
           </p>
         </div>
 
         <div className="order-details">
           <h2>Your Order</h2>
-          <div className="order-item">
-            <img src="/images/img/BLIK MEMBERSHIP.png" alt="BLACKPINK Membership" />
-            <div className="item-info">
-              <h3>BLACKPINK GLOBAL OFFICIAL FANCLUB BLINK MEMBERSHIP</h3>
-              <p>Quantity: 1</p>
-              <p className="item-price">Rp350.000</p>
+          {orders.map((item, index) => (
+            <div className="order-item" key={index}>
+              <img
+                src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/${
+                  item.product.image
+                }`}
+                alt="BLACKPINK Membership"
+              />
+              <div className="item-info">
+                <h3>{item.product.name}</h3>
+                <p>Quantity: {item.quantity}</p>
+                <p className="item-price">
+                  Rp.{item.quantity * item.product.price}
+                </p>
+              </div>
             </div>
-          </div>
-
-          <h3>Total (1 Item)</h3>
-          <p className="total-price">Rp350.000</p>
-
-          <div className="customer-info">
-            <div className="info-section">
-              <h3>Customer <button>Edit</button></h3>
-              <p>Muchamad Nurza Buya Dhantono</p>
-              <p>muchamaddhantono@gmail.com</p>
-              <p>+62 895-3965-90113</p>
-            </div>
-            <div className="info-section">
-              <h3>Address <button>Edit</button></h3>
-              <p>Jl. R. Apsia, Karadenan, Kec. Cibinong, Kabupaten Bogor, Jawa Barat 16913</p>
-            </div>
-            <div className="info-section">
-              <h3>Shipping Option <button>Choose</button></h3>
-              <p>Reguler</p>
-            </div>
-          </div>
+          ))}
 
           <div className="order-summary">
             <h2>Order Summary</h2>
-            <p>Subtotal (1 item): <span>Rp350.000</span></p>
-            <p>Shipping Fee: <span>Rp80.000</span></p>
-            <p>Discount: <span>-</span></p>
+            <p>
+              Subtotal ({orders.length} item{orders.length > 1 ? "s" : ""}):
+              <span>Rp{subtotal.toLocaleString()}</span>
+            </p>
+            <p>
+              Shipping Fee: <span>Rp{shippingFee.toLocaleString()}</span>
+            </p>
+            <p>
+              Discount: <span>-Rp{discount.toLocaleString()}</span>
+            </p>
           </div>
 
           <div className="cart-total">
             <p className="grand-total">Grand Total:</p>
-            <p className="grand-total-amount">Rp430.000</p>
+            <p className="grand-total-amount">
+              Rp{grandTotal.toLocaleString()}
+            </p>
           </div>
 
           <div className="payment-method">
             <h2>Payment Method</h2>
-            <label><input type="radio" name="payment" /> Bank (Virtual Account)</label>
-            <label><input type="radio" name="payment" /> ShopeePay</label>
-            <label><input type="radio" name="payment" /> GoPay</label>
-            <label><input type="radio" name="payment" /> Dana</label>
-            <label><input type="radio" name="payment" /> LinkAja</label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="Bank (Virtual Account)"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              Bank (Virtual Account)
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="ShopeePay"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              ShopeePay
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="GoPay"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              GoPay
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="Dana"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              Dana
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="LinkAja"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              LinkAja
+            </label>
           </div>
 
-          <Link to="/Payment" className="pay-button">Pay</Link>
+          <button className="pay-button" onClick={handlePayment}>
+            Pay
+          </button>
         </div>
       </div>
 
