@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <div className="navbar">
       <header className="header">
@@ -13,7 +20,9 @@ function Navbar() {
             <img src="/logo.png" alt="Logo" />
           </Link>
         </div>
-        <button className="logout">Log out</button>
+        <button onClick={logout} className="logout">
+          Log out
+        </button>
       </header>
     </div>
   );

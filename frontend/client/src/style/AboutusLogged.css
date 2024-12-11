@@ -1,129 +1,14 @@
-body {
-    font-family: 'Lato', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    color: #333;
-    background-color: #f9f9f9;
-}
-
-header {
-    background-color: #f2f2f2;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Menempatkan logo di kiri */
-    border-bottom: 2px solid #ccc;
-}
-
-
-.navbar {
-    position: sticky;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.logo {
-    height: 50px;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-}
-
-nav a {
-    margin-right: 15px;
-    color: #323232;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.login-button {
-    background-color: #323232;
-    color: #fff;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.user-menu {
-    position: relative;
-  }
-
-  .user-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #333;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .user-icon {
-    width: 20px;
-    height: 20px;
-    filter: brightness(0) invert(1);
-    margin-right: 10px;
-  }
-
-  .dropdown {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background-color: #292929;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    width: 150px;
-    z-index: 1000;
-   font-family: 'Lato', sans-serif;
-  }
-
-  .dropdown ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .dropdown ul li {
-    border-bottom: 1px solid #f0f0f0;
-  }
-
-  .dropdown ul li a {
-    display: block;
-    padding: 10px;
-    color: #fff;
-    text-decoration: none;
-  }
-
-  .dropdown ul li a:hover {
-    background-color: #000;
-  }
-
-  .dropdown ul li:last-child {
-    border-bottom: none;
-  }
-
 main {
     padding: 50px;
     display: flex;
     justify-content: center;
+    align-items: center; /* Ensure vertical centering */
+    min-height: 100vh; /* Ensure the main section takes the full height */
 }
 
 .about {
     max-width: 800px;
+    width: 100%; /* Make the about section take up the available width */
     text-align: center;
 }
 
@@ -135,13 +20,17 @@ main {
 
 .content {
     display: flex;
+    justify-content: space-between; /* Ensures the sections are aligned side by side */
     gap: 40px;
     text-align: left;
-    justify-content: center;
+    width: 100%; /* Make sure content section uses full width */
+    flex-wrap: wrap; /* Allows content to wrap on smaller screens */
+    align-items: flex-start; /* Align items to the top */
 }
 
 .mission, .vision {
-    width: 45%;
+    flex: 1; /* Allows both sections to take equal width */
+    min-width: 300px; /* Ensures they don't get too narrow */
 }
 
 .mission h2, .vision h2 {
@@ -153,26 +42,4 @@ main {
 .mission p, .vision p {
     font-size: 16px;
     line-height: 1.6;
-}
-
-footer {
-    background-color: #292929; /* Background footer hitam */
-    color: #fff; /* Warna teks putih */
-    padding: 20px;
-    text-align: center;
-    font-size: 14px;
-}
-
-.footer-links {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    color: #fff;
-    text-decoration: none;
-    margin-right: 15px;
-}
-
-.footer-info p {
-    margin: 5px 0;
 }

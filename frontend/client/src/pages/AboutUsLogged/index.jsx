@@ -2,7 +2,7 @@
 import React from 'react';
 import NavbarWithAuth from "../../components/NavbarWithAuth/NavbarWithAuth";
 import Footer from '../../components/Footer';
-import '../../style/AboutUs.css';
+import '../../style/AboutusLogged.css';
 
 const AboutUsLogged = () => {
   return (

@@ -4,7 +4,7 @@ import NavbarWithAuth from "../../components/NavbarWithAuth/NavbarWithAuth";
 import Dropdown from "../../components/Dropdown";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
-import '../../style/DetailConcert.css';
+import '../../style/DetailsItem.css';
 
 const DetailsItem = () => {
   return (

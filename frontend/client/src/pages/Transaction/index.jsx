@@ -5,6 +5,20 @@ import Dropdown from "../../components/Dropdown";
 import Footer from "../../components/Footer";
 import '../../style/Transaction.css';
 
+const OrderItem = ({ image, title, quantity, price, status, link }) => (
+  <div className="order-item">
+    <img src={image} alt={title} className="order-image" />
+    <div className="order-details">
+      <h4>{title}</h4>
+      <p>Quantity: {quantity}</p>
+      <p>Price: {price}</p>
+      <p>Status: {status}</p>
+    </div>
+    <a href={link} className="details-link">View Details</a>
+  </div>
+);
+
+
 const Transaction = () => {
   return (
     <>
@@ -39,7 +53,7 @@ const Transaction = () => {
               quantity="1" 
               price="615.000" 
               status="Shipping" 
-              link="/Tracking" 
+              link="/DetailsItem" 
             />
             <OrderItem 
               image="/images/img/jisso_album.png" 
@@ -47,7 +61,7 @@ const Transaction = () => {
               quantity="1" 
               price="270.000" 
               status="Cancelled" 
-              link="/DetailItems" 
+              link="/DetailsItems" 
             />
             <OrderItem 
               image="/images/img/bp_album.png" 
@@ -55,7 +69,7 @@ const Transaction = () => {
               quantity="1" 
               price="645.000" 
               status="Complete" 
-              link="/DetailItems" 
+              link="/DetailsItems" 
             />
           </div>
         </section>

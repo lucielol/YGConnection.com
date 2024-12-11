@@ -35,7 +35,7 @@ const NavbarLogged = () => {
         <div className="flex items-center space-x-12">
           <nav className="flex space-x-4">
             <div className="relative">
-              <FaSearch size={20} />
+              
             </div>
             <Link to="/HomeLogged" className="hover:text-gray-500">
               Home
@@ -46,11 +46,11 @@ const NavbarLogged = () => {
             <Link to="/Community" className="hover:text-gray-500">
               Community
             </Link>
-            <Link to="/contact" className="hover:text-gray-500">
-              Contact Us
-            </Link>
             <Link to="/aboutus" className="hover:text-gray-500">
               About Us
+            </Link>
+            <Link to="/contact" className="hover:text-gray-500">
+              Contact Us
             </Link>
           </nav>
 
@@ -72,11 +72,11 @@ const NavbarLogged = () => {
                 <FaCoins className="me-2" />
                 Poin
               </Dropdown.List>
-              <Dropdown.List to="/transaction" className="flex items-center">
+              <Dropdown.List to="/Transaction" className="flex items-center">
                 <MdPayment className="me-2" />
                 Transaction
               </Dropdown.List>
-              <Dropdown.List to="/account" className="flex items-center">
+              <Dropdown.List to="/AccountSetting" className="flex items-center">
                 <FaUser className="me-2" />
                 Profile
               </Dropdown.List>

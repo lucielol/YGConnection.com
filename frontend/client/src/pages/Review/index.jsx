@@ -9,9 +9,7 @@ const Review = () => {
   return (
     <>
       <NavbarWithAuth />  {/* Include Navbar component */}
-      <button className="user-button">
-        <img src="/images/img/profile.png" alt="User Icon" className="icon-img" /> Nurzaba
-      </button>
+      
 
       <Dropdown />  {/* Include Dropdown component */}
 

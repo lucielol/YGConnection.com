@@ -10,10 +10,7 @@ const Tracking = () => {
     <>
       <NavbarWithAuth />  {/* Use Navbar component */}
       
-      <button className="user-button">
-        <img src="/images/img/profile.png" alt="User Icon" className="icon-img" /> Nurzaba
-      </button>
-
+        
       <Dropdown />  {/* Use Dropdown component */}
 
       <div className="container">
