@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import NavbarLogin from "../../components/NavbarLogin";
 import Footer from "../../components/Footer";
-import "../../style/Regis.css";
+// import "../../style/Regis.css";
 
 import axiosInstance from "../../../axiosInstance";
 
@@ -14,19 +13,27 @@ function Regis() {
     phone: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   const handlesubmit = async (event) => {
     event.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
     try {
-      const response = await axiosInstance.post("/auth/register", values);
-      // Handle successful registration (e.g., navigate to login or show a success message)
-      console.log(response.data);
+      await axiosInstance.post("/auth/register", values);
+      setSuccessMessage("Registration successful! You can now log in.");
     } catch (error) {
-      // Handle error (e.g., show an error message)
       console.error("Registration error:", error);
+      if (error.response && error.response.status === 400) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Registration failed. Please try again.");
+      }
     }
   };
   return (
@@ -34,12 +41,23 @@ function Regis() {
       <NavbarLogin />
 
       <main>
-        <div className="login-container">
-          <h1>YGEntertainment Account</h1>
-          <p>Sign Up YGEntertainment Account</p>
+        <div className="shadow-lg p-10 rounded-lg">
+          <h1 className="text-2xl font-bold">YGEntertainment Account</h1>
+          <p className="text-sm mb-5 text-center">
+            Sign Up YGEntertainment Account
+          </p>
 
-          <form onSubmit={handlesubmit}>
-            <label htmlFor="name">Fullname</label>
+          <div className="flex justify-center items-center">
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {successMessage && (
+              <p className="text-green-500">{successMessage}</p>
+            )}
+          </div>
+
+          <form onSubmit={handlesubmit} className="space-y-3">
+            <label htmlFor="name" className="block">
+              Fullname
+            </label>
             <input
               type="text"
               name="name"
@@ -47,9 +65,12 @@ function Regis() {
               placeholder="Enter Fullname"
               onChange={handleChange}
               required
+              className="border rounded p-2 w-full"
             />
 
-            <label htmlFor="phonenumber">Phone Number</label>
+            <label htmlFor="phonenumber" className="block">
+              Phone Number
+            </label>
             <input
               type="text"
               name="phone"
@@ -57,9 +78,12 @@ function Regis() {
               placeholder="Enter Phone Number"
               onChange={handleChange}
               required
+              className="border rounded p-2 w-full"
             />
 
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" className="block">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -67,9 +91,12 @@ function Regis() {
               placeholder="your@email.com"
               onChange={handleChange}
               required
+              className="border rounded p-2 w-full"
             />
 
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className="block">
+              Password
+            </label>
             <input
               type="password"
               name="password"
@@ -77,15 +104,21 @@ function Regis() {
               placeholder="Your password"
               onChange={handleChange}
               required
+              className="border rounded p-2 w-full"
             />
 
-            <button type="submit">Sign Up</button>
+            <button
+              type="submit"
+              className="bg-blue-500 w-full text-white rounded p-2 mt-7"
+            >
+              Sign Up
+            </button>
           </form>
 
           <div className="links">
             <p>
               Already have an account?{" "}
-              <Link to="/Login" className="Login">
+              <Link to="/Login" className="text-blue-500">
                 Log In
               </Link>
             </p>

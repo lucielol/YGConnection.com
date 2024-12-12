@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom"; // Hapus Router di sini
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
-import AboutusLogged from "./pages/AboutusLogged";
+import AboutusLogged from "./pages/AboutUsLogged";
 import Login from "./pages/Login";
 import Reset from "./pages/Reset";
 import ResetNext from "./pages/ResetNext";
@@ -37,7 +37,7 @@ import { Provider } from "react-redux";
 import Contact from "./pages/Contact";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import "./app.css";
+import "./App.css";
 
 function App() {
   const location = useLocation();
