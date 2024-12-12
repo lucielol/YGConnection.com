@@ -10,6 +10,7 @@ import CategoryRouter from "./category-route.js";
 import OrderRouter from "./order-route.js";
 import TransactionRouter from "./transaction-route.js";
 import Payment from "../controllers/payment-controller.js";
+import PointRouter from "./point-route.js";
 
 const router = express.Router();
 
@@ -42,6 +43,9 @@ router.use("/api/transaction", TransactionRouter);
 
 // payment router
 router.use("/api/payment", Payment.store);
+
+// point router
+router.use("/api/point", PointRouter);
 
 // users router
 router.use("/api/profile", UserRouter);

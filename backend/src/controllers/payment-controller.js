@@ -36,6 +36,45 @@ const Payment = {
         },
       });
 
+      const orderItems = await prisma.order.findMany({
+        where: {
+          id: orderId,
+          status: "completed",
+          paymentStatus: "paid",
+        },
+        include: { product: true },
+      });
+
+      let totalPoint = 0;
+      for (const item of orderItems) {
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: {
+            stock: {
+              decrement: item.quantity,
+            },
+          },
+        });
+
+        if (item.product.point) {
+          totalPoint += item.product.point;
+        }
+      }
+
+      const order = await prisma.order.findUnique({
+        where: { id: orderId },
+        select: { userId: true },
+      });
+
+      if (order && order.userId && totalPoint > 0) {
+        await prisma.point.create({
+          data: {
+            userId: order.userId,
+            value: totalPoint,
+          },
+        });
+      }
+
       res.status(200).json({ success: true, payment });
     } catch (error) {
       console.error("Error processing payment:", error);

@@ -13,10 +13,28 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../services/authSlice";
 import logo from "/images/img/logo_YG.png";
 import Modal from "../Modal";
+import axiosInstance from "../../../axiosInstance.js";
 
 const NavbarLogged = () => {
   const [showModal, setShowModal] = React.useState(false);
+  const [point, setPoint] = React.useState(0);
   const dispatch = useDispatch();
+
+  const userId = Number(localStorage.getItem("userId")) || 0;
+
+  const fetchPoint = async () => {
+    try {
+      const point = await axiosInstance.get(`/point/${userId}`);
+      setPoint(point.data);
+    } catch (error) {
+      console.log(error);
+      alert("something when wrong");
+    }
+  };
+
+  React.useEffect(() => {
+    fetchPoint();
+  }, []);
 
   const openModal = () => {
     setShowModal(!showModal);
@@ -97,7 +115,7 @@ const NavbarLogged = () => {
           <div className="flex justify-center items-center">
             <h1 className="text-4xl flex justify-center items-center text-yellow-500">
               <FaCoins className="me-3" />
-              350
+              {point}
             </h1>
           </div>
         </Modal.Body>
